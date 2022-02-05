@@ -25,19 +25,8 @@ class TodoListViewController: UITableViewController {
         super.viewDidLoad()
 
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressToUpdate))
         tableView.addGestureRecognizer(longPress)
-    }
-
-    @objc func longPress(sender: UILongPressGestureRecognizer) {
-
-        if sender.state == UIGestureRecognizer.State.began {
-            let touchPoint = sender.location(in: tableView)
-            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                // your code here, get the row for the indexPath or do whatever you want
-                print("Long press Pressed:)")
-            }
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -98,6 +87,38 @@ class TodoListViewController: UITableViewController {
         }
     }
 
+    //MARK: - Update New Items
+    @objc func longPressToUpdate(sender: UILongPressGestureRecognizer) {
+
+        if sender.state == UIGestureRecognizer.State.began {
+            let touchPoint = sender.location(in: tableView)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                // your code here, get the row for the indexPath or do whatever you want
+                print("Long press Pressed:)")
+
+                var textField = UITextField()
+                let alert = UIAlertController(title: "Update Item", message: "", preferredStyle: .alert)
+                let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+                    //what will happen once the user clicks the Add Item button on our UIAlert
+
+                    let newItem = Item()
+                    newItem.title = textField.text!
+                    newItem.dateCreated = Date()
+
+                    self.updateModel(at: indexPath, with: newItem)
+                }
+
+                alert.addTextField { (alertTextField) in
+                    alertTextField.placeholder = "Create new item"
+                    textField = alertTextField
+                }
+
+                alert.addAction(action)
+                present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+
     //MARK: - Add New Items
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -136,6 +157,20 @@ class TodoListViewController: UITableViewController {
         itemArray = (selectedCategory?.items.sorted(byKeyPath: "title", ascending: true))!
         tableView.reloadData()
 
+    }
+
+    func updateModel(at indexPath: IndexPath, with newItem: Item) {
+        let oldItem = itemArray![indexPath.row]
+        do {
+            try realm.write{
+                oldItem.setValue(newItem.title, forKeyPath: "title")
+                oldItem.setValue(newItem.done, forKeyPath: "done")
+                oldItem.setValue(newItem.dateCreated, forKeyPath: "dateCreated")
+            }
+            tableView.reloadData()
+        } catch {
+            print("Error deleting item, \(error)")
+        }
     }
 
     //Mark: - Delete Data from Swipe
