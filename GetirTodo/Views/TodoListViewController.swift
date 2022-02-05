@@ -88,6 +88,16 @@ class TodoListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            deleteModel(at: indexPath)
+        }
+    }
+
     //MARK: - Add New Items
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -129,12 +139,13 @@ class TodoListViewController: UITableViewController {
     }
 
     //Mark: - Delete Data from Swipe
-    func updateModel(at indexPath: IndexPath) {
+    func deleteModel(at indexPath: IndexPath) {
         let item = itemArray![indexPath.row]
         do {
             try realm.write{
                 realm.delete(item)
             }
+            tableView.reloadData()
         } catch {
             print("Error deleting item, \(error)")
         }
