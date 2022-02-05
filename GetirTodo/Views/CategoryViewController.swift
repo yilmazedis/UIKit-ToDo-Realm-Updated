@@ -20,20 +20,9 @@ class CategoryViewController: UITableViewController {
         super.viewDidLoad()
 
         loadCategories()
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressToUpdate))
         tableView.addGestureRecognizer(longPress)
 
-    }
-
-    @objc func longPress(sender: UILongPressGestureRecognizer) {
-
-        if sender.state == UIGestureRecognizer.State.began {
-            let touchPoint = sender.location(in: tableView)
-            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                // your code here, get the row for the indexPath or do whatever you want
-                print("Long press Pressed:)")
-            }
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -102,7 +91,20 @@ class CategoryViewController: UITableViewController {
         tableView.reloadData()
     }
 
-    //MARK: - Delete Data from Swipe
+    //MARK: - Update Data
+    func updateModel(at indexPath: IndexPath, with name: String) {
+        let oldCategory = categories![indexPath.row]
+        do {
+            try realm.write{
+                oldCategory.setValue(name, forKeyPath: "name")
+            }
+            tableView.reloadData()
+        } catch {
+            print("Error deleting category, \(error)")
+        }
+    }
+
+    //MARK: - Delete Data from model
     func deleteModel(at indexPath: IndexPath) {
         let categoryForDeletion = self.categories![indexPath.row]
         do {
@@ -112,6 +114,35 @@ class CategoryViewController: UITableViewController {
             tableView.reloadData()
         } catch {
             print("Error deleting category, \(error)")
+        }
+    }
+
+    //MARK: - Update New Items
+    @objc func longPressToUpdate(sender: UILongPressGestureRecognizer) {
+
+        if sender.state == UIGestureRecognizer.State.began {
+            let touchPoint = sender.location(in: tableView)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                // your code here, get the row for the indexPath or do whatever you want
+                print("Long press Pressed:)")
+
+                var textField = UITextField()
+                let alert = UIAlertController(title: "Update category", message: "", preferredStyle: .alert)
+                let action = UIAlertAction(title: "Update", style: .default) { (action) in
+                    //what will happen once the user clicks the Add Item button on our UIAlert
+                    let name: String = textField.text!
+                    self.updateModel(at: indexPath, with: name)
+                }
+
+                alert.addTextField { (alertTextField) in
+                    alertTextField.placeholder = "Create new category name"
+                    textField = alertTextField
+                }
+
+                alert.addAction(action)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
+            }
         }
     }
 
@@ -128,6 +159,7 @@ class CategoryViewController: UITableViewController {
         }
 
         alert.addAction(action)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addTextField { (field) in
             textField = field
             textField.placeholder = "Add a new category"
@@ -135,59 +167,4 @@ class CategoryViewController: UITableViewController {
 
         present(alert, animated: true, completion: nil)
     }
-    /*
-     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-     // Configure the cell...
-
-     return cell
-     }
-     */
-
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-     }
-     */
-
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-
-    /*
-     // MARK: - Navigation
-
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-
 }

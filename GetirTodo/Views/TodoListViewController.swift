@@ -98,7 +98,7 @@ class TodoListViewController: UITableViewController {
 
                 var textField = UITextField()
                 let alert = UIAlertController(title: "Update Item", message: "", preferredStyle: .alert)
-                let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+                let action = UIAlertAction(title: "Update", style: .default) { (action) in
                     //what will happen once the user clicks the Add Item button on our UIAlert
 
                     let newItem = Item()
@@ -114,6 +114,7 @@ class TodoListViewController: UITableViewController {
                 }
 
                 alert.addAction(action)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                 present(alert, animated: true, completion: nil)
             }
         }
@@ -147,6 +148,7 @@ class TodoListViewController: UITableViewController {
         }
 
         alert.addAction(action)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
 
