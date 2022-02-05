@@ -25,19 +25,8 @@ class TodoListViewController: UITableViewController {
         super.viewDidLoad()
 
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressToUpdate))
         tableView.addGestureRecognizer(longPress)
-    }
-
-    @objc func longPress(sender: UILongPressGestureRecognizer) {
-
-        if sender.state == UIGestureRecognizer.State.began {
-            let touchPoint = sender.location(in: tableView)
-            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                // your code here, get the row for the indexPath or do whatever you want
-                print("Long press Pressed:)")
-            }
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -88,6 +77,49 @@ class TodoListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            deleteModel(at: indexPath)
+        }
+    }
+
+    //MARK: - Update New Items
+    @objc func longPressToUpdate(sender: UILongPressGestureRecognizer) {
+
+        if sender.state == UIGestureRecognizer.State.began {
+            let touchPoint = sender.location(in: tableView)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                // your code here, get the row for the indexPath or do whatever you want
+                print("Long press Pressed:)")
+
+                var textField = UITextField()
+                let alert = UIAlertController(title: "Update Item", message: "", preferredStyle: .alert)
+                let action = UIAlertAction(title: "Update", style: .default) { (action) in
+                    //what will happen once the user clicks the Add Item button on our UIAlert
+
+                    let newItem = Item()
+                    newItem.title = textField.text!
+                    newItem.dateCreated = Date()
+
+                    self.updateModel(at: indexPath, with: newItem)
+                }
+
+                alert.addTextField { (alertTextField) in
+                    alertTextField.placeholder = "Create new item"
+                    textField = alertTextField
+                }
+
+                alert.addAction(action)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+
     //MARK: - Add New Items
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -116,6 +148,7 @@ class TodoListViewController: UITableViewController {
         }
 
         alert.addAction(action)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
 
@@ -128,13 +161,28 @@ class TodoListViewController: UITableViewController {
 
     }
 
+    func updateModel(at indexPath: IndexPath, with newItem: Item) {
+        let oldItem = itemArray![indexPath.row]
+        do {
+            try realm.write{
+                oldItem.setValue(newItem.title, forKeyPath: "title")
+                oldItem.setValue(newItem.done, forKeyPath: "done")
+                oldItem.setValue(newItem.dateCreated, forKeyPath: "dateCreated")
+            }
+            tableView.reloadData()
+        } catch {
+            print("Error deleting item, \(error)")
+        }
+    }
+
     //Mark: - Delete Data from Swipe
-    func updateModel(at indexPath: IndexPath) {
+    func deleteModel(at indexPath: IndexPath) {
         let item = itemArray![indexPath.row]
         do {
             try realm.write{
                 realm.delete(item)
             }
+            tableView.reloadData()
         } catch {
             print("Error deleting item, \(error)")
         }
