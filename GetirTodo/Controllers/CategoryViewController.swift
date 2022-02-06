@@ -8,9 +8,8 @@
 import UIKit
 import RealmSwift
 
-class CategoryViewController: UITableViewController, CRUD {
+class CategoryViewController: UITableViewController {
 
-    typealias T = Category
     let realm = try! Realm()
 
     // Potential namespace clash with OpaquePointer (same name of Category)
@@ -64,47 +63,6 @@ class CategoryViewController: UITableViewController, CRUD {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             delete(at: indexPath)
-        }
-    }
-
-    //MARK: - Data Manipulation Methods
-    func create(element: T) {
-        do {
-            try realm.write {
-                realm.add(element)
-            }
-        } catch {
-            Logger.log(what: K.ErrorMessage.create, over: error)
-        }
-        tableView.reloadData()
-    }
-
-    func read() {
-        categories = realm.objects(Category.self)
-        tableView.reloadData()
-    }
-
-    func update(at indexPath: IndexPath, with element: T) {
-        let oldCategory = categories![indexPath.row]
-        do {
-            try realm.write{
-                oldCategory.setValue(element.name, forKeyPath: K.Category.name)
-            }
-            tableView.reloadData()
-        } catch {
-            Logger.log(what: K.ErrorMessage.update, over: error)
-        }
-    }
-
-    func delete(at indexPath: IndexPath) {
-        let categoryForDeletion = self.categories![indexPath.row]
-        do {
-            try self.realm.write {
-                self.realm.delete(categoryForDeletion)
-            }
-            tableView.reloadData()
-        } catch {
-            Logger.log(what: K.ErrorMessage.delete, over: error)
         }
     }
 
