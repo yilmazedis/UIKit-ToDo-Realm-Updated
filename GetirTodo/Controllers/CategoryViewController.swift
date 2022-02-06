@@ -74,7 +74,7 @@ class CategoryViewController: UITableViewController, CRUD {
                 realm.add(element)
             }
         } catch {
-            Logger.log(from: #file, what: K.ErrorMessage.create, over: error)
+            Logger.log(what: K.ErrorMessage.create, over: error)
         }
         tableView.reloadData()
     }
@@ -92,7 +92,7 @@ class CategoryViewController: UITableViewController, CRUD {
             }
             tableView.reloadData()
         } catch {
-            Logger.log(from: #file, what: K.ErrorMessage.update, over: error)
+            Logger.log(what: K.ErrorMessage.update, over: error)
         }
     }
 
@@ -104,7 +104,7 @@ class CategoryViewController: UITableViewController, CRUD {
             }
             tableView.reloadData()
         } catch {
-            Logger.log(from: #file, what: K.ErrorMessage.delete, over: error)
+            Logger.log(what: K.ErrorMessage.delete, over: error)
         }
     }
 

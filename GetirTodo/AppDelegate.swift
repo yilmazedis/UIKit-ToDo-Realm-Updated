@@ -18,9 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         do {
             let realm = try Realm()
-            Logger.log(from: #file, what: K.InfoMessages.initialisingRealm, about: .info)
+            Logger.log(what: K.InfoMessages.initialisingRealm, about: .info)
         } catch {
-            Logger.log(from: #file, what: K.ErrorMessage.initialisingRealm, about: .error)
+            Logger.log(what: K.ErrorMessage.initialisingRealm, about: .error)
         }
 
         return true

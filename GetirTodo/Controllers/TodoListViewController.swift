@@ -81,7 +81,7 @@ class TodoListViewController: UITableViewController, CRUD {
                     currentCategory.items.append(element)
                 }
             } catch {
-                Logger.log(from: #file, what: K.ErrorMessage.create, over: error)
+                Logger.log(what: K.ErrorMessage.create, over: error)
             }
         }
         self.tableView.reloadData()
@@ -89,7 +89,7 @@ class TodoListViewController: UITableViewController, CRUD {
 
     func read() {
         guard let elements = selectedCategory?.items.sorted(byKeyPath: K.Item.title, ascending: true) else {
-            Logger.log(from: #file, what: K.ErrorMessage.read, about: .error)
+            Logger.log(what: K.ErrorMessage.read, about: .error)
             return
         }
         itemArray = elements
@@ -106,7 +106,7 @@ class TodoListViewController: UITableViewController, CRUD {
             }
             tableView.reloadData()
         } catch {
-            Logger.log(from: #file, what: K.ErrorMessage.update, over: error)
+            Logger.log(what: K.ErrorMessage.update, over: error)
         }
     }
 
@@ -118,7 +118,7 @@ class TodoListViewController: UITableViewController, CRUD {
             }
             tableView.reloadData()
         } catch {
-            Logger.log(from: #file, what: K.ErrorMessage.delete, over: error)
+            Logger.log(what: K.ErrorMessage.delete, over: error)
         }
     }
 
@@ -129,7 +129,7 @@ class TodoListViewController: UITableViewController, CRUD {
                 item.done = !item.done
             }
         } catch {
-            Logger.log(from: #file, what: K.ErrorMessage.create, over: error)
+            Logger.log(what: K.ErrorMessage.create, over: error)
         }
     }
 
