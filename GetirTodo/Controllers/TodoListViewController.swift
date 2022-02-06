@@ -65,7 +65,6 @@ class TodoListViewController: UITableViewController {
         let item = itemArray![indexPath.row]
         do {
             try realm.write{
-                // realm.delete(item)
                 item.done = !item.done
             }
         } catch {

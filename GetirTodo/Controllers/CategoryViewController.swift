@@ -8,8 +8,9 @@
 import UIKit
 import RealmSwift
 
-class CategoryViewController: UITableViewController {
+class CategoryViewController: UITableViewController, CRUD {
 
+    typealias T = Category
     let realm = try! Realm()
 
     // Potential namespace clash with OpaquePointer (same name of Category)
@@ -19,7 +20,7 @@ class CategoryViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadCategories()
+        read()
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressToUpdate))
         tableView.addGestureRecognizer(longPress)
 
@@ -68,16 +69,16 @@ class CategoryViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            deleteModel(at: indexPath)
+            delete(at: indexPath)
         }
     }
 
     //MARK: - Data Manipulation Methods
 
-    func save(category: Category) {
+    func create(element: T) {
         do {
             try realm.write {
-                realm.add(category)
+                realm.add(element)
             }
         } catch {
             print("Error saving category \(error)")
@@ -85,14 +86,14 @@ class CategoryViewController: UITableViewController {
         tableView.reloadData()
     }
 
-    func loadCategories() {
+    func read() {
 
         categories = realm.objects(Category.self)
         tableView.reloadData()
     }
 
     //MARK: - Update Data
-    func updateModel(at indexPath: IndexPath, with name: String) {
+    func update(at indexPath: IndexPath, with name: String) {
         let oldCategory = categories![indexPath.row]
         do {
             try realm.write{
@@ -105,7 +106,7 @@ class CategoryViewController: UITableViewController {
     }
 
     //MARK: - Delete Data from model
-    func deleteModel(at indexPath: IndexPath) {
+    func delete(at indexPath: IndexPath) {
         let categoryForDeletion = self.categories![indexPath.row]
         do {
             try self.realm.write {
@@ -119,52 +120,23 @@ class CategoryViewController: UITableViewController {
 
     //MARK: - Update New Items
     @objc func longPressToUpdate(sender: UILongPressGestureRecognizer) {
-
         if sender.state == UIGestureRecognizer.State.began {
             let touchPoint = sender.location(in: tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 // your code here, get the row for the indexPath or do whatever you want
-                print("Long press Pressed:)")
-
-                var textField = UITextField()
-                let alert = UIAlertController(title: "Update category", message: "", preferredStyle: .alert)
-                let action = UIAlertAction(title: "Update", style: .default) { (action) in
-                    //what will happen once the user clicks the Add Item button on our UIAlert
-                    let name: String = textField.text!
-                    self.updateModel(at: indexPath, with: name)
+                alertControllerView(act: ActionType.Update) { (name) in
+                    self.update(at: indexPath, with: name)
                 }
-
-                alert.addTextField { (alertTextField) in
-                    alertTextField.placeholder = "Create new category name"
-                    textField = alertTextField
-                }
-
-                alert.addAction(action)
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                present(alert, animated: true, completion: nil)
             }
         }
     }
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        var textField = UITextField()
 
-        let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
-
-        let action = UIAlertAction(title: "Add", style: .default) { (action) in
-
+        alertControllerView(act: ActionType.Add) { (text) in
             let newCategory = Category()
-            newCategory.name = textField.text!
-            self.save(category: newCategory)
+            newCategory.name = text
+            self.create(element: newCategory)
         }
-
-        alert.addAction(action)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alert.addTextField { (field) in
-            textField = field
-            textField.placeholder = "Add a new category"
-        }
-
-        present(alert, animated: true, completion: nil)
     }
 }
