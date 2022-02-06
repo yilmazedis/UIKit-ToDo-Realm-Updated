@@ -1,6 +1,8 @@
 # GetirTodo
 
-## Ver. 2:
-* Added Update action for Category and Items
-* Added delete action for Category and Items
-* Added Cancel Buttons for Add and Update actions
+## Ver. 3:
+* Added Pretty and simple logger
+* Added Constants
+* Added CRUD protocol
+* Restructured files and groups
+* Refactored duplicate functions
