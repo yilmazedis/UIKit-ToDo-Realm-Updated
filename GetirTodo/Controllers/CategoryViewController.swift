@@ -19,7 +19,7 @@ class CategoryViewController: UITableViewController, CRUD {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        tableView.rowHeight = 80.0
         read()
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressToUpdate))
         tableView.addGestureRecognizer(longPress)
@@ -88,11 +88,11 @@ class CategoryViewController: UITableViewController, CRUD {
     }
 
     //MARK: - Update Data
-    func update(at indexPath: IndexPath, with name: String) {
+    func update(at indexPath: IndexPath, with element: T) {
         let oldCategory = categories![indexPath.row]
         do {
             try realm.write{
-                oldCategory.setValue(name, forKeyPath: "name")
+                oldCategory.setValue(element.name, forKeyPath: "name")
             }
             tableView.reloadData()
         } catch {
@@ -120,14 +120,15 @@ class CategoryViewController: UITableViewController, CRUD {
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 // your code here, get the row for the indexPath or do whatever you want
                 alertControllerView(act: ActionType.Update) { (name) in
-                    self.update(at: indexPath, with: name)
+                    let newCategory = Category()
+                    newCategory.name = name
+                    self.update(at: indexPath, with: newCategory)
                 }
             }
         }
     }
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-
         alertControllerView(act: ActionType.Add) { (text) in
             let newCategory = Category()
             newCategory.name = text

@@ -13,6 +13,6 @@ protocol CRUD {
 
     func create(element: T)
     func read()
-    func update(at indexPath: IndexPath, with name: String)
+    func update(at indexPath: IndexPath, with element: T)
     func delete(at indexPath: IndexPath)
 }

@@ -8,22 +8,23 @@
 import UIKit
 import RealmSwift
 
-class TodoListViewController: UITableViewController {
+class TodoListViewController: UITableViewController, CRUD {
 
     @IBOutlet weak var searchBar: UISearchBar!
 
+    typealias T = Item
     var itemArray: Results<Item>?
     let realm = try! Realm()
 
     var selectedCategory : Category? {
         didSet{
-            loadItems()
+            read()
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        tableView.rowHeight = 80.0
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressToUpdate))
         tableView.addGestureRecognizer(longPress)
@@ -38,7 +39,6 @@ class TodoListViewController: UITableViewController {
     }
 
     //MARK: - Tableview Datasource Methods
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray!.count
     }
@@ -76,89 +76,63 @@ class TodoListViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            deleteModel(at: indexPath)
+            delete(at: indexPath)
         }
     }
 
     //MARK: - Update New Items
     @objc func longPressToUpdate(sender: UILongPressGestureRecognizer) {
-
         if sender.state == UIGestureRecognizer.State.began {
             let touchPoint = sender.location(in: tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                // your code here, get the row for the indexPath or do whatever you want
-                print("Long press Pressed:)")
-
-                var textField = UITextField()
-                let alert = UIAlertController(title: "Update Item", message: "", preferredStyle: .alert)
-                let action = UIAlertAction(title: "Update", style: .default) { (action) in
-                    //what will happen once the user clicks the Add Item button on our UIAlert
-
+                alertControllerView(act: ActionType.Update) { (text) in
                     let newItem = Item()
-                    newItem.title = textField.text!
+                    newItem.title = text
                     newItem.dateCreated = Date()
 
-                    self.updateModel(at: indexPath, with: newItem)
+                    self.update(at: indexPath, with: newItem)
                 }
-
-                alert.addTextField { (alertTextField) in
-                    alertTextField.placeholder = "Create new item"
-                    textField = alertTextField
-                }
-
-                alert.addAction(action)
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                present(alert, animated: true, completion: nil)
             }
         }
     }
 
     //MARK: - Add New Items
-
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        var textField = UITextField()
-        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
-            //what will happen once the user clicks the Add Item button on our UIAlert
-            if let currentCategory = self.selectedCategory {
-                do {
-                    try self.realm.write {
-                        let newItem = Item()
-                        newItem.title = textField.text!
-                        newItem.dateCreated = Date()
-                        currentCategory.items.append(newItem)
-                    }
-                } catch {
-                    print("Error saving new items, \(error)")
-                }
-            }
-            self.tableView.reloadData()
+        alertControllerView(act: ActionType.Add) { (text) in
+            let newItem = Item()
+            newItem.title = text
+            newItem.dateCreated = Date()
+            self.create(element: newItem)
         }
-
-        alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Create new item"
-            textField = alertTextField
-        }
-
-        alert.addAction(action)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
     }
 
-    //MARK: - Model Manupulation Methods
-    func loadItems() {
+    //MARK: - Model Manupulation Methods -
 
+    func create(element: Item) {
+        if let currentCategory = self.selectedCategory {
+            do {
+                try self.realm.write {
+                    currentCategory.items.append(element)
+                }
+            } catch {
+                print("Error saving new items, \(error)")
+            }
+        }
+        self.tableView.reloadData()
+    }
+
+    func read() {
         itemArray = (selectedCategory?.items.sorted(byKeyPath: "title", ascending: true))!
         tableView.reloadData()
     }
 
-    func updateModel(at indexPath: IndexPath, with newItem: Item) {
+    func update(at indexPath: IndexPath, with element: Item) {
         let oldItem = itemArray![indexPath.row]
         do {
             try realm.write{
-                oldItem.setValue(newItem.title, forKeyPath: "title")
-                oldItem.setValue(newItem.done, forKeyPath: "done")
-                oldItem.setValue(newItem.dateCreated, forKeyPath: "dateCreated")
+                oldItem.setValue(element.title, forKeyPath: "title")
+                oldItem.setValue(element.done, forKeyPath: "done")
+                oldItem.setValue(element.dateCreated, forKeyPath: "dateCreated")
             }
             tableView.reloadData()
         } catch {
@@ -166,8 +140,7 @@ class TodoListViewController: UITableViewController {
         }
     }
 
-    //Mark: - Delete Data from Swipe
-    func deleteModel(at indexPath: IndexPath) {
+    func delete(at indexPath: IndexPath) {
         let item = itemArray![indexPath.row]
         do {
             try realm.write{
