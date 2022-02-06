@@ -47,4 +47,5 @@ struct K {
     static let rowHeight = 80.0
     static let appName = "GetirTodo"
     static let goToItems = "goToItems"
+    static let dateFormat = "yyyy-MM-dd HH:mm:ss"
 }
