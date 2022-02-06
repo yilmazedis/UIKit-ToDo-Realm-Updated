@@ -30,7 +30,6 @@ class CategoryViewController: UITableViewController, CRUD {
     }
 
     //MARK: - TableView Datasource Methods
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories!.count
     }
@@ -46,7 +45,6 @@ class CategoryViewController: UITableViewController, CRUD {
     }
 
     //MARK: - TableView Delegate Methods
-
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToItems", sender: self)
     }
@@ -70,7 +68,6 @@ class CategoryViewController: UITableViewController, CRUD {
     }
 
     //MARK: - Data Manipulation Methods
-
     func create(element: T) {
         do {
             try realm.write {
@@ -87,7 +84,6 @@ class CategoryViewController: UITableViewController, CRUD {
         tableView.reloadData()
     }
 
-    //MARK: - Update Data
     func update(at indexPath: IndexPath, with element: T) {
         let oldCategory = categories![indexPath.row]
         do {
@@ -100,7 +96,6 @@ class CategoryViewController: UITableViewController, CRUD {
         }
     }
 
-    //MARK: - Delete Data from model
     func delete(at indexPath: IndexPath) {
         let categoryForDeletion = self.categories![indexPath.row]
         do {
@@ -113,7 +108,7 @@ class CategoryViewController: UITableViewController, CRUD {
         }
     }
 
-    //MARK: - Update New Items
+    //MARK: - Update Action -
     @objc func longPressToUpdate(sender: UILongPressGestureRecognizer) {
         if sender.state == UIGestureRecognizer.State.began {
             let touchPoint = sender.location(in: tableView)
@@ -128,6 +123,7 @@ class CategoryViewController: UITableViewController, CRUD {
         }
     }
 
+    //MARK: - Add Action -
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         alertControllerView(act: ActionType.Add) { (text) in
             let newCategory = Category()

@@ -80,34 +80,7 @@ class TodoListViewController: UITableViewController, CRUD {
         }
     }
 
-    //MARK: - Update New Items
-    @objc func longPressToUpdate(sender: UILongPressGestureRecognizer) {
-        if sender.state == UIGestureRecognizer.State.began {
-            let touchPoint = sender.location(in: tableView)
-            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                alertControllerView(act: ActionType.Update) { (text) in
-                    let newItem = Item()
-                    newItem.title = text
-                    newItem.dateCreated = Date()
-
-                    self.update(at: indexPath, with: newItem)
-                }
-            }
-        }
-    }
-
-    //MARK: - Add New Items
-    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        alertControllerView(act: ActionType.Add) { (text) in
-            let newItem = Item()
-            newItem.title = text
-            newItem.dateCreated = Date()
-            self.create(element: newItem)
-        }
-    }
-
     //MARK: - Model Manupulation Methods -
-
     func create(element: Item) {
         if let currentCategory = self.selectedCategory {
             do {
@@ -149,6 +122,32 @@ class TodoListViewController: UITableViewController, CRUD {
             tableView.reloadData()
         } catch {
             print("Error deleting item, \(error)")
+        }
+    }
+
+    //MARK: - Update Action -
+    @objc func longPressToUpdate(sender: UILongPressGestureRecognizer) {
+        if sender.state == UIGestureRecognizer.State.began {
+            let touchPoint = sender.location(in: tableView)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                alertControllerView(act: ActionType.Update) { (text) in
+                    let newItem = Item()
+                    newItem.title = text
+                    newItem.dateCreated = Date()
+
+                    self.update(at: indexPath, with: newItem)
+                }
+            }
+        }
+    }
+
+    //MARK: - Add Action -
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        alertControllerView(act: ActionType.Add) { (text) in
+            let newItem = Item()
+            newItem.title = text
+            newItem.dateCreated = Date()
+            self.create(element: newItem)
         }
     }
 }
