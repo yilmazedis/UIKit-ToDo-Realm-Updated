@@ -57,14 +57,7 @@ class TodoListViewController: UITableViewController, CRUD {
     //MARK: - TableView Delegate Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        let item = itemArray![indexPath.row]
-        do {
-            try realm.write{
-                item.done = !item.done
-            }
-        } catch {
-            Logger.log(from: #file, what: K.ErrorMessage.create, over: error)
-        }
+        updateDone(at: indexPath)
 
         tableView.reloadData()
         tableView.deselectRow(at: indexPath, animated: true)
@@ -126,6 +119,17 @@ class TodoListViewController: UITableViewController, CRUD {
             tableView.reloadData()
         } catch {
             Logger.log(from: #file, what: K.ErrorMessage.delete, over: error)
+        }
+    }
+
+    func updateDone(at indexPath: IndexPath) {
+        let item = itemArray![indexPath.row]
+        do {
+            try realm.write{
+                item.done = !item.done
+            }
+        } catch {
+            Logger.log(from: #file, what: K.ErrorMessage.create, over: error)
         }
     }
 
