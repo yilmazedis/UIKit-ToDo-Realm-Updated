@@ -92,8 +92,7 @@
 		84C2101127AEB1E20047C1AA /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				84C2100D27AEB1C00047C1AA /* CategoryViewController.swift */,
-				84C2100F27AEB1DE0047C1AA /* TodoListViewController.swift */,
+				F726693E2590B8DE00AB3034 /* Main.storyboard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -113,6 +112,24 @@
 				84C2102427AEBA340047C1AA /* UITableViewController+Ext.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		84C2102827AFFBDF0047C1AA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F72669432590B8DF00AB3034 /* LaunchScreen.storyboard */,
+				F72669412590B8DF00AB3034 /* Assets.xcassets */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		84C2102927AFFC040047C1AA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				84C2100F27AEB1DE0047C1AA /* TodoListViewController.swift */,
+				84C2100D27AEB1C00047C1AA /* CategoryViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		85145B9B432F8DB2AD1990D5 /* Pods */ = {
@@ -157,14 +174,13 @@
 		F72669372590B8DE00AB3034 /* GetirTodo */ = {
 			isa = PBXGroup;
 			children = (
+				84C2102827AFFBDF0047C1AA /* Supporting Files */,
 				84C2101A27AEB8490047C1AA /* Extensions */,
 				84C2101227AEB3320047C1AA /* Models */,
 				84C2101127AEB1E20047C1AA /* Views */,
+				84C2102927AFFC040047C1AA /* Controllers */,
 				F72669382590B8DE00AB3034 /* AppDelegate.swift */,
 				F726693A2590B8DE00AB3034 /* SceneDelegate.swift */,
-				F726693E2590B8DE00AB3034 /* Main.storyboard */,
-				F72669412590B8DF00AB3034 /* Assets.xcassets */,
-				F72669432590B8DF00AB3034 /* LaunchScreen.storyboard */,
 				F72669462590B8DF00AB3034 /* Info.plist */,
 			);
 			path = GetirTodo;
