@@ -16,10 +16,10 @@ extension UIViewController {
         }
 
         alert.addAction(addButton)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: K.Alert.cancel, style: .cancel, handler: nil))
         alert.addTextField { (field) in
             textField = field
-            textField.placeholder = "Type a short Name"
+            textField.placeholder = K.Alert.placeHolder
         }
         present(alert, animated: true, completion: nil)
     }

@@ -19,14 +19,14 @@ class CategoryViewController: UITableViewController, CRUD {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = 80.0
+        tableView.rowHeight = K.rowHeight
         read()
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressToUpdate))
         tableView.addGestureRecognizer(longPress)
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        configureNavigationBar(largeTitleColor: .white, backgoundColor: .blue, tintColor: .white, title: "Todo", preferredLargeTitle: true)
+        configureNavigationBar(largeTitleColor: .white, backgoundColor: .blue, tintColor: .white, title: K.appName, preferredLargeTitle: true)
     }
 
     //MARK: - TableView Datasource Methods
@@ -36,7 +36,7 @@ class CategoryViewController: UITableViewController, CRUD {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.cell, for: indexPath)
         cell.textLabel?.text = categories![indexPath.row].name
         cell.backgroundColor = .green
         cell.textLabel?.textColor = .white
@@ -46,7 +46,7 @@ class CategoryViewController: UITableViewController, CRUD {
 
     //MARK: - TableView Delegate Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "goToItems", sender: self)
+        performSegue(withIdentifier: K.goToItems, sender: self)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -88,7 +88,7 @@ class CategoryViewController: UITableViewController, CRUD {
         let oldCategory = categories![indexPath.row]
         do {
             try realm.write{
-                oldCategory.setValue(element.name, forKeyPath: "name")
+                oldCategory.setValue(element.name, forKeyPath: K.Category.name)
             }
             tableView.reloadData()
         } catch {

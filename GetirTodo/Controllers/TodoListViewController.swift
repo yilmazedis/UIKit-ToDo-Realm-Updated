@@ -24,7 +24,7 @@ class TodoListViewController: UITableViewController, CRUD {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = 80.0
+        tableView.rowHeight = K.rowHeight
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressToUpdate))
         tableView.addGestureRecognizer(longPress)
@@ -44,7 +44,7 @@ class TodoListViewController: UITableViewController, CRUD {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.cell, for: indexPath)
         let item = itemArray![indexPath.row]
 
         cell.textLabel?.text = item.title
@@ -88,14 +88,18 @@ class TodoListViewController: UITableViewController, CRUD {
                     currentCategory.items.append(element)
                 }
             } catch {
-                print("Error saving new items, \(error)")
+                print("Error creating new element, \(error)")
             }
         }
         self.tableView.reloadData()
     }
 
     func read() {
-        itemArray = (selectedCategory?.items.sorted(byKeyPath: "title", ascending: true))!
+        guard let elements = selectedCategory?.items.sorted(byKeyPath: K.Item.title, ascending: true) else {
+            print("Error while reading element")
+            return
+        }
+        itemArray = elements
         tableView.reloadData()
     }
 
@@ -103,13 +107,13 @@ class TodoListViewController: UITableViewController, CRUD {
         let oldItem = itemArray![indexPath.row]
         do {
             try realm.write{
-                oldItem.setValue(element.title, forKeyPath: "title")
-                oldItem.setValue(element.done, forKeyPath: "done")
-                oldItem.setValue(element.dateCreated, forKeyPath: "dateCreated")
+                oldItem.setValue(element.title, forKeyPath: K.Item.title)
+                oldItem.setValue(element.done, forKeyPath: K.Item.done)
+                oldItem.setValue(element.dateCreated, forKeyPath: K.Item.dateCreated)
             }
             tableView.reloadData()
         } catch {
-            print("Error deleting item, \(error)")
+            print("Error while deleting element, \(error)")
         }
     }
 
@@ -121,7 +125,7 @@ class TodoListViewController: UITableViewController, CRUD {
             }
             tableView.reloadData()
         } catch {
-            print("Error deleting item, \(error)")
+            print("Error  deleting item, \(error)")
         }
     }
 
