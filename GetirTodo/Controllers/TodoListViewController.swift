@@ -63,7 +63,7 @@ class TodoListViewController: UITableViewController, CRUD {
                 item.done = !item.done
             }
         } catch {
-            print("Error saving done status, \(error)")
+            Logger.log(from: #file, what: K.ErrorMessage.create, over: error)
         }
 
         tableView.reloadData()
@@ -88,7 +88,7 @@ class TodoListViewController: UITableViewController, CRUD {
                     currentCategory.items.append(element)
                 }
             } catch {
-                print("Error creating new element, \(error)")
+                Logger.log(from: #file, what: K.ErrorMessage.create, over: error)
             }
         }
         self.tableView.reloadData()
@@ -96,7 +96,7 @@ class TodoListViewController: UITableViewController, CRUD {
 
     func read() {
         guard let elements = selectedCategory?.items.sorted(byKeyPath: K.Item.title, ascending: true) else {
-            print("Error while reading element")
+            Logger.log(from: #file, what: K.ErrorMessage.read, about: .error)
             return
         }
         itemArray = elements
@@ -113,7 +113,7 @@ class TodoListViewController: UITableViewController, CRUD {
             }
             tableView.reloadData()
         } catch {
-            print("Error while deleting element, \(error)")
+            Logger.log(from: #file, what: K.ErrorMessage.update, over: error)
         }
     }
 
@@ -125,7 +125,7 @@ class TodoListViewController: UITableViewController, CRUD {
             }
             tableView.reloadData()
         } catch {
-            print("Error  deleting item, \(error)")
+            Logger.log(from: #file, what: K.ErrorMessage.delete, over: error)
         }
     }
 

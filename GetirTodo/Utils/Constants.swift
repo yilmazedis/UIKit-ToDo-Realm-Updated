@@ -33,6 +33,10 @@ struct K {
         static let initialisingRealm = "Error initialising new realm"
     }
 
+    struct InfoMessages {
+        static let initialisingRealm = "Binding to Realm is successful"
+    }
+
     struct SearchBar {
         static let filter = "title CONTAINS[cd] %@"
         static let keyPath = "dateCreated"

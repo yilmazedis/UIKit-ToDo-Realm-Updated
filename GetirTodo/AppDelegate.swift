@@ -18,8 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         do {
             let realm = try Realm()
+            Logger.log(from: #file, what: K.InfoMessages.initialisingRealm, about: .info)
         } catch {
-            print("Error initialising new realm, \(error)")
+            Logger.log(from: #file, what: K.ErrorMessage.initialisingRealm, about: .error)
         }
 
         return true
