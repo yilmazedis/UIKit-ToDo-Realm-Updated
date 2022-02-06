@@ -33,8 +33,8 @@ class TodoListViewController: UITableViewController, CRUD {
     override func viewWillAppear(_ animated: Bool) {
         if let category = selectedCategory {
             let title = category.name
-            configureNavigationBar(largeTitleColor: .white, backgoundColor: .blue, tintColor: .white, title: title, preferredLargeTitle: true)
-            searchBar.barTintColor = .blue
+            configureNavigationBar(largeTitleColor: .white, backgoundColor: .systemBlue, tintColor: .white, title: title, preferredLargeTitle: true)
+            searchBar.barTintColor = .systemOrange
         }
     }
 
@@ -48,7 +48,7 @@ class TodoListViewController: UITableViewController, CRUD {
         let item = itemArray![indexPath.row]
 
         cell.textLabel?.text = item.title
-        cell.backgroundColor = .green
+        cell.backgroundColor = .systemGreen
         cell.textLabel?.textColor = .white
         cell.accessoryType = item.done ? .checkmark : .none
         return cell

@@ -26,7 +26,7 @@ class CategoryViewController: UITableViewController, CRUD {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        configureNavigationBar(largeTitleColor: .white, backgoundColor: .blue, tintColor: .white, title: K.appName, preferredLargeTitle: true)
+        configureNavigationBar(largeTitleColor: .white, backgoundColor: .systemBlue, tintColor: .white, title: K.appName, preferredLargeTitle: true)
     }
 
     //MARK: - TableView Datasource Methods
@@ -38,7 +38,7 @@ class CategoryViewController: UITableViewController, CRUD {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: K.cell, for: indexPath)
         cell.textLabel?.text = categories![indexPath.row].name
-        cell.backgroundColor = .green
+        cell.backgroundColor = .systemGreen
         cell.textLabel?.textColor = .white
 
         return cell
