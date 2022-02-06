@@ -16,6 +16,7 @@
 		84C2102F27B001EC0047C1AA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C2102E27B001EC0047C1AA /* Constants.swift */; };
 		84C2103527B008C70047C1AA /* CRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C2103427B008C70047C1AA /* CRUD.swift */; };
 		84C2103727B00ACD0047C1AA /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C2103627B00ACD0047C1AA /* UIViewController+Ext.swift */; };
+		84C2103A27B00E230047C1AA /* TodoListViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C2103927B00E230047C1AA /* TodoListViewController+Ext.swift */; };
 		C3CC7F819AE070FB17F3F824 /* Pods_GetirTodo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E10DC41ED77C362511DCB3F /* Pods_GetirTodo.framework */; };
 		F72669392590B8DE00AB3034 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72669382590B8DE00AB3034 /* AppDelegate.swift */; };
 		F726693B2590B8DE00AB3034 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F726693A2590B8DE00AB3034 /* SceneDelegate.swift */; };
@@ -54,6 +55,7 @@
 		84C2102E27B001EC0047C1AA /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		84C2103427B008C70047C1AA /* CRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRUD.swift; sourceTree = "<group>"; };
 		84C2103627B00ACD0047C1AA /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		84C2103927B00E230047C1AA /* TodoListViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoListViewController+Ext.swift"; sourceTree = "<group>"; };
 		9BBD74BC9A4F86079AF57D7C /* Pods-GetirTodo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GetirTodo.release.xcconfig"; path = "Target Support Files/Pods-GetirTodo/Pods-GetirTodo.release.xcconfig"; sourceTree = "<group>"; };
 		A628D2E26772174F693019D9 /* Pods-GetirTodo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GetirTodo.debug.xcconfig"; path = "Target Support Files/Pods-GetirTodo/Pods-GetirTodo.debug.xcconfig"; sourceTree = "<group>"; };
 		F72669352590B8DD00AB3034 /* GetirTodo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GetirTodo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +121,7 @@
 			children = (
 				84C2102427AEBA340047C1AA /* UITableViewController+Ext.swift */,
 				84C2103627B00ACD0047C1AA /* UIViewController+Ext.swift */,
+				84C2103927B00E230047C1AA /* TodoListViewController+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C2103A27B00E230047C1AA /* TodoListViewController+Ext.swift in Sources */,
 				84C2100E27AEB1C00047C1AA /* CategoryViewController.swift in Sources */,
 				F72669392590B8DE00AB3034 /* AppDelegate.swift in Sources */,
 				84C2103727B00ACD0047C1AA /* UIViewController+Ext.swift in Sources */,

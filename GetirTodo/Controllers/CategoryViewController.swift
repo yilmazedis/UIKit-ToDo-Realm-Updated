@@ -23,7 +23,6 @@ class CategoryViewController: UITableViewController, CRUD {
         read()
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressToUpdate))
         tableView.addGestureRecognizer(longPress)
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -33,9 +32,7 @@ class CategoryViewController: UITableViewController, CRUD {
     //MARK: - TableView Datasource Methods
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
         return categories!.count
-
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -46,7 +43,6 @@ class CategoryViewController: UITableViewController, CRUD {
         cell.textLabel?.textColor = .white
 
         return cell
-
     }
 
     //MARK: - TableView Delegate Methods
@@ -87,7 +83,6 @@ class CategoryViewController: UITableViewController, CRUD {
     }
 
     func read() {
-
         categories = realm.objects(Category.self)
         tableView.reloadData()
     }
