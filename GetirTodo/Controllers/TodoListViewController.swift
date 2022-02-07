@@ -76,7 +76,13 @@ class TodoListViewController: UITableViewController {
         if sender.state == UIGestureRecognizer.State.began {
             let touchPoint = sender.location(in: tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                alertControllerView(act: ActionType.Update) { (text) in
+                alertControllerView(act: ActionType.Update) { [weak self] (text) in
+                    guard let self = self else {
+                        Logger.log(what: K.ErrorMessage.weakSelfWarning, about: .error)
+                        return
+
+                    }
+                    
                     let newItem = Item()
                     newItem.title = text
                     newItem.dateCreated = Date()
@@ -89,7 +95,13 @@ class TodoListViewController: UITableViewController {
 
     //MARK: - Add Action -
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        alertControllerView(act: ActionType.Add) { (text) in
+        alertControllerView(act: ActionType.Add) { [weak self] (text) in
+            guard let self = self else {
+                Logger.log(what: K.ErrorMessage.weakSelfWarning, about: .error)
+                return
+
+            }
+
             let newItem = Item()
             newItem.title = text
             newItem.dateCreated = Date()

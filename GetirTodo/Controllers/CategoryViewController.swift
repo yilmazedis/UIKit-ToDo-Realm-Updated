@@ -72,7 +72,13 @@ class CategoryViewController: UITableViewController {
             let touchPoint = sender.location(in: tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 // your code here, get the row for the indexPath or do whatever you want
-                alertControllerView(act: ActionType.Update) { (name) in
+                alertControllerView(act: ActionType.Update) { [weak self] (name) in
+                    guard let self = self else {
+                        Logger.log(what: K.ErrorMessage.weakSelfWarning, about: .error)
+                        return
+
+                    }
+                    
                     let newCategory = Category()
                     newCategory.name = name
                     self.update(at: indexPath, with: newCategory)
@@ -83,7 +89,13 @@ class CategoryViewController: UITableViewController {
 
     //MARK: - Add Action -
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        alertControllerView(act: ActionType.Add) { (text) in
+        alertControllerView(act: ActionType.Add) { [weak self] (text) in
+            guard let self = self else {
+                Logger.log(what: K.ErrorMessage.weakSelfWarning, about: .error)
+                return
+
+            }
+
             let newCategory = Category()
             newCategory.name = text
             self.create(element: newCategory)
