@@ -10,16 +10,20 @@ import RealmSwift
 
 class CategoryViewController: UITableViewController {
 
+    //MARK: - Constants
     let realm = try! Realm()
 
-    // Potential namespace clash with OpaquePointer (same name of Category)
-    // Use correct type from dropdown or add backticks to fix e.g., var categories = [`Category`]()
+    //MARK: - Variables
     var categories: Results<Category>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = K.rowHeight
+
+        // Retrieve elements from Category
         read()
+
+        // Adding longpress gesture to update elements
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressToUpdate))
         tableView.addGestureRecognizer(longPress)
     }
@@ -43,7 +47,7 @@ class CategoryViewController: UITableViewController {
         return cell
     }
 
-    //MARK: - TableView Delegate Methods
+    //MARK: - TableView Delegate Methods -
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: K.goToItems, sender: self)
     }
@@ -56,6 +60,7 @@ class CategoryViewController: UITableViewController {
         }
     }
 
+    //MARK: - Delete side
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }

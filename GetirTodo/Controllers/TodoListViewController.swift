@@ -10,12 +10,17 @@ import RealmSwift
 
 class TodoListViewController: UITableViewController {
 
+    //MARK: - IBOutlets
     @IBOutlet weak var searchBar: UISearchBar!
-    var itemArray: Results<Item>?
+
+    //MARK: - Constants
     let realm = try! Realm()
 
+    //MARK: - Variables
+    var itemArray: Results<Item>?
     var selectedCategory : Category? {
         didSet{
+            // Retrieve elements from Category Items
             read()
         }
     }
@@ -24,6 +29,8 @@ class TodoListViewController: UITableViewController {
         super.viewDidLoad()
         tableView.rowHeight = K.rowHeight
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+
+        // Adding longpress gesture to update elements
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressToUpdate))
         tableView.addGestureRecognizer(longPress)
     }
@@ -52,7 +59,7 @@ class TodoListViewController: UITableViewController {
         return cell
     }
 
-    //MARK: - TableView Delegate Methods
+    //MARK: - TableView Delegate Methods -
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         updateDone(at: indexPath)
@@ -61,6 +68,7 @@ class TodoListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
+    //MARK: - Delete side
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -80,7 +88,6 @@ class TodoListViewController: UITableViewController {
                     guard let self = self else {
                         Logger.log(what: K.ErrorMessage.weakSelfWarning, about: .error)
                         return
-
                     }
                     
                     let newItem = Item()
@@ -99,7 +106,6 @@ class TodoListViewController: UITableViewController {
             guard let self = self else {
                 Logger.log(what: K.ErrorMessage.weakSelfWarning, about: .error)
                 return
-
             }
 
             let newItem = Item()
