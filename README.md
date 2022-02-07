@@ -1,8 +1,13 @@
 # GetirTodo
 
-## Ver. 3:
-* Added Pretty and simple logger
-* Added Constants
-* Added CRUD protocol
+## Ver. 4:
+* Added demo
+* Extended Constants
+* Added weak self all all escaping closure
+* Added CRUD extensions for Category and Item controllers.
 * Restructured files and groups
-* Refactored duplicate functions
+
+Quick Demo                 |  Search Bar Demo
+:-------------------------:|:-------------------------:
+![](quick_demo.gif)  |  ![](search_bar_quick_demo.gif)
+

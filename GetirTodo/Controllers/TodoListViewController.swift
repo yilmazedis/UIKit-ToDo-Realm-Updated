@@ -8,16 +8,19 @@
 import UIKit
 import RealmSwift
 
-class TodoListViewController: UITableViewController, CRUD {
+class TodoListViewController: UITableViewController {
 
+    //MARK: - IBOutlets
     @IBOutlet weak var searchBar: UISearchBar!
 
-    typealias T = Item
-    var itemArray: Results<Item>?
+    //MARK: - Constants
     let realm = try! Realm()
 
+    //MARK: - Variables
+    var itemArray: Results<Item>?
     var selectedCategory : Category? {
         didSet{
+            // Retrieve elements from Category Items
             read()
         }
     }
@@ -26,6 +29,8 @@ class TodoListViewController: UITableViewController, CRUD {
         super.viewDidLoad()
         tableView.rowHeight = K.rowHeight
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+
+        // Adding longpress gesture to update elements
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressToUpdate))
         tableView.addGestureRecognizer(longPress)
     }
@@ -54,7 +59,7 @@ class TodoListViewController: UITableViewController, CRUD {
         return cell
     }
 
-    //MARK: - TableView Delegate Methods
+    //MARK: - TableView Delegate Methods -
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         updateDone(at: indexPath)
@@ -63,6 +68,7 @@ class TodoListViewController: UITableViewController, CRUD {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
+    //MARK: - Delete side
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -73,72 +79,17 @@ class TodoListViewController: UITableViewController, CRUD {
         }
     }
 
-    //MARK: - Model Manupulation Methods -
-    func create(element: Item) {
-        if let currentCategory = self.selectedCategory {
-            do {
-                try self.realm.write {
-                    currentCategory.items.append(element)
-                }
-            } catch {
-                Logger.log(what: K.ErrorMessage.create, over: error)
-            }
-        }
-        self.tableView.reloadData()
-    }
-
-    func read() {
-        guard let elements = selectedCategory?.items.sorted(byKeyPath: K.Item.title, ascending: true) else {
-            Logger.log(what: K.ErrorMessage.read, about: .error)
-            return
-        }
-        itemArray = elements
-        tableView.reloadData()
-    }
-
-    func update(at indexPath: IndexPath, with element: Item) {
-        let oldItem = itemArray![indexPath.row]
-        do {
-            try realm.write{
-                oldItem.setValue(element.title, forKeyPath: K.Item.title)
-                oldItem.setValue(element.done, forKeyPath: K.Item.done)
-                oldItem.setValue(element.dateCreated, forKeyPath: K.Item.dateCreated)
-            }
-            tableView.reloadData()
-        } catch {
-            Logger.log(what: K.ErrorMessage.update, over: error)
-        }
-    }
-
-    func delete(at indexPath: IndexPath) {
-        let item = itemArray![indexPath.row]
-        do {
-            try realm.write{
-                realm.delete(item)
-            }
-            tableView.reloadData()
-        } catch {
-            Logger.log(what: K.ErrorMessage.delete, over: error)
-        }
-    }
-
-    func updateDone(at indexPath: IndexPath) {
-        let item = itemArray![indexPath.row]
-        do {
-            try realm.write{
-                item.done = !item.done
-            }
-        } catch {
-            Logger.log(what: K.ErrorMessage.create, over: error)
-        }
-    }
-
     //MARK: - Update Action -
     @objc func longPressToUpdate(sender: UILongPressGestureRecognizer) {
         if sender.state == UIGestureRecognizer.State.began {
             let touchPoint = sender.location(in: tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                alertControllerView(act: ActionType.Update) { (text) in
+                alertControllerView(act: ActionType.Update) { [weak self] (text) in
+                    guard let self = self else {
+                        Logger.log(what: K.ErrorMessage.weakSelfWarning, about: .error)
+                        return
+                    }
+                    
                     let newItem = Item()
                     newItem.title = text
                     newItem.dateCreated = Date()
@@ -151,7 +102,12 @@ class TodoListViewController: UITableViewController, CRUD {
 
     //MARK: - Add Action -
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        alertControllerView(act: ActionType.Add) { (text) in
+        alertControllerView(act: ActionType.Add) { [weak self] (text) in
+            guard let self = self else {
+                Logger.log(what: K.ErrorMessage.weakSelfWarning, about: .error)
+                return
+            }
+
             let newItem = Item()
             newItem.title = text
             newItem.dateCreated = Date()

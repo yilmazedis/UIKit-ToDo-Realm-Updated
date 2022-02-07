@@ -20,6 +20,8 @@
 		84C2103C27B034A50047C1AA /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C2103B27B034A50047C1AA /* Logger.swift */; };
 		84C2103E27B045B20047C1AA /* LogType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C2103D27B045B20047C1AA /* LogType.swift */; };
 		84C2104027B052F00047C1AA /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C2103F27B052F00047C1AA /* Date+Ext.swift */; };
+		84C2104327B05EE60047C1AA /* TodoListViewController+CRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C2104227B05EE60047C1AA /* TodoListViewController+CRUD.swift */; };
+		84C2104527B05EFC0047C1AA /* CategoryViewController+CRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C2104427B05EFC0047C1AA /* CategoryViewController+CRUD.swift */; };
 		C3CC7F819AE070FB17F3F824 /* Pods_GetirTodo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E10DC41ED77C362511DCB3F /* Pods_GetirTodo.framework */; };
 		F72669392590B8DE00AB3034 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72669382590B8DE00AB3034 /* AppDelegate.swift */; };
 		F726693B2590B8DE00AB3034 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F726693A2590B8DE00AB3034 /* SceneDelegate.swift */; };
@@ -62,6 +64,8 @@
 		84C2103B27B034A50047C1AA /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		84C2103D27B045B20047C1AA /* LogType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogType.swift; sourceTree = "<group>"; };
 		84C2103F27B052F00047C1AA /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
+		84C2104227B05EE60047C1AA /* TodoListViewController+CRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoListViewController+CRUD.swift"; sourceTree = "<group>"; };
+		84C2104427B05EFC0047C1AA /* CategoryViewController+CRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryViewController+CRUD.swift"; sourceTree = "<group>"; };
 		9BBD74BC9A4F86079AF57D7C /* Pods-GetirTodo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GetirTodo.release.xcconfig"; path = "Target Support Files/Pods-GetirTodo/Pods-GetirTodo.release.xcconfig"; sourceTree = "<group>"; };
 		A628D2E26772174F693019D9 /* Pods-GetirTodo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GetirTodo.debug.xcconfig"; path = "Target Support Files/Pods-GetirTodo/Pods-GetirTodo.debug.xcconfig"; sourceTree = "<group>"; };
 		F72669352590B8DD00AB3034 /* GetirTodo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GetirTodo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,6 +149,7 @@
 		84C2102927AFFC040047C1AA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				84C2104127B05EBA0047C1AA /* Extension */,
 				84C2100F27AEB1DE0047C1AA /* TodoListViewController.swift */,
 				84C2100D27AEB1C00047C1AA /* CategoryViewController.swift */,
 			);
@@ -176,6 +181,15 @@
 				84C2103427B008C70047C1AA /* CRUD.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		84C2104127B05EBA0047C1AA /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				84C2104227B05EE60047C1AA /* TodoListViewController+CRUD.swift */,
+				84C2104427B05EFC0047C1AA /* CategoryViewController+CRUD.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		85145B9B432F8DB2AD1990D5 /* Pods */ = {
@@ -428,6 +442,7 @@
 			files = (
 				84C2103A27B00E230047C1AA /* TodoListViewController+Ext.swift in Sources */,
 				84C2100E27AEB1C00047C1AA /* CategoryViewController.swift in Sources */,
+				84C2104327B05EE60047C1AA /* TodoListViewController+CRUD.swift in Sources */,
 				F72669392590B8DE00AB3034 /* AppDelegate.swift in Sources */,
 				84C2103727B00ACD0047C1AA /* UIViewController+Ext.swift in Sources */,
 				84C2102C27B0019B0047C1AA /* ActionType.swift in Sources */,
@@ -437,6 +452,7 @@
 				84C2103E27B045B20047C1AA /* LogType.swift in Sources */,
 				84C2104027B052F00047C1AA /* Date+Ext.swift in Sources */,
 				84C2101027AEB1DE0047C1AA /* TodoListViewController.swift in Sources */,
+				84C2104527B05EFC0047C1AA /* CategoryViewController+CRUD.swift in Sources */,
 				84C2103C27B034A50047C1AA /* Logger.swift in Sources */,
 				84C2101427AEB34A0047C1AA /* Category.swift in Sources */,
 				84C2102F27B001EC0047C1AA /* Constants.swift in Sources */,

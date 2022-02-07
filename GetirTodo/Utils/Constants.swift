@@ -31,6 +31,7 @@ struct K {
         static let delete = "Error while deleting element"
 
         static let initialisingRealm = "Error initialising new realm"
+        static let weakSelfWarning = "[Weak Self] unexpected behavior is captured"
     }
 
     struct InfoMessages {
