@@ -6,7 +6,7 @@ target 'GetirTodo' do
   use_frameworks!
 
   # Pods for GetirTodo
-  pod 'RealmSwift'
+  pod 'RealmSwift', '~> 10.25.0'
 
   #target 'GetirTodoTests' do
   #  inherit! :search_paths
